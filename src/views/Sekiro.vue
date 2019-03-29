@@ -55,6 +55,7 @@ div.container {
 </style>
 
 <script>
+import 'blob-polyfill';
 import {saveAs} from 'file-saver';
 
 export default {
