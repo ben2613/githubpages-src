@@ -37,7 +37,9 @@
     </b-container>
   </div>
 </template>
-
+<style>
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexkai.css);
+</style>
 <style scoped>
 div.container {
   width: 100%;
@@ -57,6 +59,7 @@ div.container {
 <script>
 import 'blob-polyfill';
 import {saveAs} from 'file-saver';
+import { setInterval } from 'timers';
 
 export default {
   watch: {
@@ -109,7 +112,7 @@ export default {
       }
       ctx.fillRect(0, 0, 1920, 1080);
 
-      ctx.font = "" + kanjiSize + "px DFKai-sb";
+      ctx.font = "" + kanjiSize + "px DFKai-sb,cwTeXKai,serif";
 
       var my_gradient = ctx.createLinearGradient(0, 0, 0, 170);
       my_gradient.addColorStop(0, "rgb(187,43,43)");
@@ -153,6 +156,9 @@ export default {
   },
   mounted() {
     this.drawCanvas();
+    setInterval(() => {
+      this.drawCanvas();
+    }, 3000);
   }
 };
 </script>
