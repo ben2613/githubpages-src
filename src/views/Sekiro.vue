@@ -97,15 +97,15 @@ export default {
         );
       }
 
-      var english = this.english.split("").join("　");
-      ctx.font = "30px serif";
+      var english = this.english.toUpperCase().split("").join("　");
+      ctx.font = "40px serif";
       (textWidth = ctx.measureText(english).width),
         (textHeight = ctx.measureText(english).height);
       ctx.filter = "blur(1px)";
       ctx.fillText(
         english,
         (canvas.width - textWidth) / 2,
-        (canvas.height - 30) / 2 + 30 + 140
+        (canvas.height - 30) / 2 + 40 + 140
       );
     },
     downloadCanvas(){
