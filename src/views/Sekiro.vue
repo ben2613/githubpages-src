@@ -3,12 +3,12 @@
     <h1>YOU DIED, again and again</h1>
     <b-container>
       <b-row>
-        <b-col cols="9">
+        <b-col cols="12" md="8">
           <div id="canvas-container">
             <canvas id="canvas" width="1920px" height="1080px"></canvas>
           </div>
         </b-col>
-        <b-col>
+        <b-col md="4">
           <b-row align-h="start">
             <b-col>
               <input type="text" v-model="kanji">
