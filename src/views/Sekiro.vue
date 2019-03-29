@@ -21,6 +21,14 @@
           </b-row>
           <b-row align-h="start">
             <b-col>
+              <input id="transparentChk" type="checkbox" v-model="transparent">
+              <label for="transparentChk"> transparent </label>
+              <input id="use720pChk" type="checkbox" v-model="use720p">
+              <label for="use720pChk"> Use 720P </label>
+            </b-col>
+          </b-row>
+          <b-row align-h="start">
+            <b-col>
               <button @click="downloadCanvas">Download</button>
             </b-col>
           </b-row>
@@ -56,23 +64,50 @@ export default {
     },
     english: function() {
       this.drawCanvas();
-    }
+    },
+    transparent: function() {
+      this.drawCanvas();
+    },
+    use720p: function() {
+      this.drawCanvas();
+    },
+
   },
   data() {
     return {
       kanji: "死",
-      english: "DEATH"
+      english: "DEATH",
+      transparent: false,
+      use720p: false
     };
   },
   methods: {
     drawCanvas() {
       var canvas = document.getElementById("canvas");
+      canvas.width = 1920;
+      canvas.height = 1080;
+      var kanjiSize = 350;
+      var englishSize = 40;
+      var kanjiOffset = 120;
+      var englishOffset = 140;
+      if(this.use720p) {
+        canvas.width = 1280;
+        canvas.height = 720;
+        kanjiSize = Math.round(kanjiSize /1080 * 720);
+        englishSize = Math.round(englishSize /1080 * 720);
+        kanjiOffset = Math.round(kanjiOffset /1080 * 720);
+        englishOffset = Math.ceil(englishOffset /1080 * 720);
+      }
       var ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = "rgb(0,0,0)";
+      if(this.transparent) {
+        ctx.fillStyle = "rgba(0,0,0,0)";
+      } else {
+        ctx.fillStyle = "rgb(0,0,0)";
+      }
       ctx.fillRect(0, 0, 1920, 1080);
 
-      var kanjiSize = 350;
       ctx.font = "" + kanjiSize + "px DFKai-sb";
 
       var my_gradient = ctx.createLinearGradient(0, 0, 0, 170);
@@ -89,23 +124,23 @@ export default {
         ctx.shadowColor = "RGBA(187, 80, 80," + (10 - i) / 20 + ")";
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
-        ctx.shadowBlur = i * 3;
+        ctx.shadowBlur = i * (this.use720p ? 2 : 3);
         ctx.fillText(
           this.kanji,
           (canvas.width - textWidth) / 2,
-          (canvas.height - kanjiSize) / 2 + kanjiSize - 120
+          (canvas.height - kanjiSize) / 2 + kanjiSize - kanjiOffset
         );
       }
 
       var english = this.english.toUpperCase().split("").join("　");
-      ctx.font = "40px serif";
+      ctx.font = "" + englishSize + "px serif";
       (textWidth = ctx.measureText(english).width),
         (textHeight = ctx.measureText(english).height);
       ctx.filter = "blur(1px)";
       ctx.fillText(
         english,
         (canvas.width - textWidth) / 2,
-        (canvas.height - 30) / 2 + 40 + 140
+        (canvas.height - 30) / 2 + englishSize + englishOffset
       );
     },
     downloadCanvas(){
